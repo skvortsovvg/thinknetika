@@ -7,9 +7,10 @@ name = gets.chomp.capitalize
 print "Введите свой рост: "
 height = gets.chomp.to_i
 
-i_weight = (height - 110)*1.15
-if i_weight > 0 
-	puts "#{name}, ваш идеальный вес - #{i_weight}"
+i_weight = (height - 110) * 1.15
+
+if i_weight.positive? 
+  puts "#{name}, ваш идеальный вес - #{i_weight}"
 else
-	puts "#{name}, ваш вес уже оптимальный!"
+  puts "#{name}, ваш вес уже оптимальный!"
 end

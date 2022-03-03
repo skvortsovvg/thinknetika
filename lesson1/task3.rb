@@ -19,10 +19,10 @@ tr << gets.chomp.to_f
 
 tr.sort!
 
-if tr.uniq.size == 1 then
-	puts "Треугольник равносторонний";
+if tr.uniq.size == 1
+  puts "Треугольник равносторонний";
 else
-	print "Треугльник"
-	print " прямоугольный" if (tr.last**2).round(2) == tr[0]**2 + tr[1]**2
-	print " равнобедренный" if tr.uniq.size < 3  
+  print "Треугльник"
+  print " прямоугольный" if (tr.last ** 2).round(2) == tr[0] ** 2 + tr[1] ** 2
+  print " равнобедренный" if tr.uniq.size < 3  
 end

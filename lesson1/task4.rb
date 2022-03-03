@@ -21,12 +21,12 @@ b = gets.chomp.to_f
 print "Введите C: "
 c = gets.chomp.to_f
 
-d = b**2 - 4*a*c;
+d = b ** 2 - 4 * a * c;
 
 if d < 0
-	puts "Дискриминант #{d}, корней нет"
+  puts "Дискриминант #{d}, корней нет"
 elsif d == 0
-	puts "Дискриминант #{d}, корень x = #{-b/2*a}"
+  puts "Дискриминант #{d}, корень x = #{-b / 2 * a}"
 else
-	puts "Дискриминант #{d}, корни x1 = #{(-b+Math.sqrt(d))/2*a}, x2 = #{(-b-Math.sqrt(d))/2*a}"
+  puts "Дискриминант #{d}, корни x1 = #{(-b + Math.sqrt(d)) / 2 * a}, x2 = #{(-b - Math.sqrt(d)) / 2 * a}"
 end
