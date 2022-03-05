@@ -18,8 +18,6 @@ def is_leap?(year)
   	return true
   end
 
-  return false
-
 end
 
 print "Введите день: "

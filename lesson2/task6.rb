@@ -34,8 +34,9 @@ puts "|\tТовар\t|\tКол-во\t|\tСумма\t|"
 puts "-------------------------------------------------"
 
 cart.each do |key, value|
-  total = value[:count] * value[:price]
-  puts "|\t#{key}\t|\t#{value[:count]}\t|\t#{total}\t|"
+  str_total = value[:count] * value[:price]
+  puts "|\t#{key}\t|\t#{value[:count]}\t|\t#{str_total}\t|"
+  total += str_total
 end
 
 puts "-------------------------------------------------"
