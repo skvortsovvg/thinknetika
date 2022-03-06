@@ -114,7 +114,7 @@ class Train
 
   # Может прицеплять/отцеплять вагоны (по одному вагону за операцию, метод просто увеличивает или уменьшает количество вагонов).
   # Прицепка/отцепка вагонов может осуществляться только если поезд не движется.    
-  def decraise
+  def decrease
     @size -= 1 if @speed == 0 && @size > 0
   end
 
@@ -186,14 +186,14 @@ route.add_station(Station.new("Каневская"))
 route.add_station(tim_st)
 route.add_station(Station.new("Староминская"))
 route.add_station(Station.new("Батайск"))
-route.get_route
+puts route.stations.inspect
 
 route.add_station(msk_st, finish_st)
-route.get_route
+puts route.stations.inspect
 
 route.remove_station(tim_st)
 route.remove_station(msk_st)
-route.get_route
+puts route.stations.inspect
 
 train.set_route(route)
 
@@ -217,5 +217,5 @@ puts train.size
 3.times { train.increase }
 puts train.size
 
-4.times { train.decraise }
+4.times { train.decrease }
 puts train.size
