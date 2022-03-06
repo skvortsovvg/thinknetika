@@ -14,35 +14,28 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
-    @cargo = 0; 
-    @pass = 0;
   end
 
   # Может принимать поезда (по одному за раз)
   def train_arrives(train)
     @trains << train
-    @cargo += 1 if train.type == :cargo
-    @pass += 1 if train.type == :passanger
   end
 
   # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
   def train_departs(train)
     @trains.delete(train)
-    @cargo -= 1 if train.type == :cargo
-    @pass -= 1 if train.type == :passanger
   end
 
   # Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
   def get_trains_by_type
-    puts "Санция #{@name}: грузовых поездов: #{@cargo}, пассажирских поездов: #{@pass}"
-    puts
+  	cargo = 0; pass = 0;
+  	@trains.each do |tr| 
+  		cargo += 1 if tr.type == :cargo
+  		pass += 1 if tr.type == :passanger
+  	end
+  	return { cagro: cargo, passanger: pass } 
   end  
 
-  def get_trains
-    puts "Поезда на станции #{@name}:"
-    @trains.map { |tr| puts tr.number }
-    puts
-  end
 end
 
 # Класс Route (Маршрут):
@@ -62,19 +55,16 @@ class Route
   end
 
   # Может добавлять промежуточную станцию в список
-  def add_station(station)
-    @stations.insert(-2, station)
+  def add_station(new_station, previous_station = nil)
+  	return if previous_station == @stations.first 
+  	ind = @stations.index(previous_station)
+	ind = -2 if ind == nil
+ 	@stations.insert(ind, new_station)
   end
 
   # Может удалять промежуточную станцию из списка
   def remove_station(station)
     @stations.delete(station) if !(station == @stations.first || station == @stations.last)
-  end
-
-  # Может выводить список всех станций по-порядку от начальной до конечной
-  def get_route
-    @stations.map { |st| print st.name; print " -> " if !(st == @stations.last) }
-    puts
   end
   
 end
@@ -181,15 +171,16 @@ train2 = Train.new("533М", :passanger, 5)
 finish_st.train_arrives(train)
 finish_st.train_arrives(train2)
 
-finish_st.get_trains
-finish_st.get_trains_by_type
+puts finish_st.trains
+puts finish_st.get_trains_by_type
 
 finish_st.train_departs(train2)
 
-finish_st.get_trains
-finish_st.get_trains_by_type
+puts finish_st.trains
+puts finish_st.get_trains_by_type
 
 tim_st = Station.new("Тимашевск")
+msk_st = Station.new("Москва")
 
 route.add_station(Station.new("Каневская"))
 route.add_station(tim_st)
@@ -197,7 +188,11 @@ route.add_station(Station.new("Староминская"))
 route.add_station(Station.new("Батайск"))
 route.get_route
 
+route.add_station(msk_st, finish_st)
+route.get_route
+
 route.remove_station(tim_st)
+route.remove_station(msk_st)
 route.get_route
 
 train.set_route(route)
