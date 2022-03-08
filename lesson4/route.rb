@@ -5,7 +5,6 @@
 # Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-
   attr_reader :title, :stations
 
   def initialize(start, finish)
@@ -16,14 +15,6 @@ class Route
 
   def self.list
     @@list ||= []
-  end
-
-  def self.print_list
-    list.each_with_index { |v, i| puts "#{i}. #{v.title}" }
-  end
-
-  def print_route_stations
-    @stations.each_with_index { |v, i| puts "#{i}. #{v.title}" }
   end
 
   def add_station(new_station, previous_station = nil)
@@ -42,4 +33,5 @@ class Route
   def create_title
     "#{@stations.first.title} - #{@stations.last.title}"
   end
+
 end

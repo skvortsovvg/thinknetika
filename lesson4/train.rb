@@ -11,7 +11,6 @@
 # Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class Train
-  
   attr_reader :number, :wagons, :type, :speed, :route, :current_station
 
   def initialize(number)
@@ -23,10 +22,6 @@ class Train
 
   def self.list
     @@list ||= []
-  end
-
-  def self.print_list
-    list.each_with_index { |v, i| puts "#{i}. #{v.number}" }
   end
 
   def speed_up
@@ -43,10 +38,6 @@ class Train
 
   def remove_carriage(carriage)
     @wagons.delete(carriage) if carriage.type == self.type
-  end
-
-  def print_wagons_list
-    @wagons.each_with_index { |v, i| puts "#{i}. #{v.number}" }
   end
 
   def set_route(route)

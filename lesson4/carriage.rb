@@ -1,5 +1,4 @@
 class Carriage
-
 	attr_reader :number, :type
 
 	def initialize(number)
@@ -11,9 +10,6 @@ class Carriage
     @@list ||= []
   end
 
-  def self.print_list
-    list.each_with_index { |v, i| puts "#{i}. #{v.number} (#{v.type})" }
-  end
 end
 
 class PassengerWagon < Carriage

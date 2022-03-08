@@ -6,7 +6,6 @@
 # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
 
 class Station
-
   attr_reader :title, :trains
 
   def initialize(title)
@@ -17,10 +16,6 @@ class Station
 
   def self.list
     @@list ||= []
-  end
-
-  def self.print_list
-    list.each_with_index { |v, i| puts "#{i}. #{v.title}" }
   end
 
   def train_arrives(train)
