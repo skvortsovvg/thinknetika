@@ -1,7 +1,5 @@
 class Interface
-
   def start
-
     loop do 
       case menu
       when 0
@@ -35,6 +33,10 @@ class Interface
       end
     end
   end
+
+private
+
+  # Сами по себе эти методы не имеют смысла, поэтому их вызов из вне нужно запретить  
 
   def create_station
     print "Создаем станцию. Введите название станции: "
@@ -226,10 +228,6 @@ class Interface
     print_result("Список поездов на стации <#{station.title}>")
     station.trains.each_with_index { |v, i| puts "#{i}. #{v.number} (#{v.type})" }
   end
-
-private 
-  
-  # Сами по себе эти методы не имеют смысла, поэтому их вызов из вне нужно запретить
   
   def menu
       puts
