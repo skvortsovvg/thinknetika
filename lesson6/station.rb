@@ -7,15 +7,17 @@
 
 class Station
   attr_reader :title, :trains
-
+  include InstanceCounter
+  
   def initialize(title)
     @title = title
     @trains = []
+    register_instance
     self.class.all << self
   end
 
   def self.all
-    @@list ||= []
+    @@all ||= []
   end
 
   def train_arrives(train)

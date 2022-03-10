@@ -91,6 +91,7 @@ class Train
 end
 
 class PassengerTrain < Train
+  # @instances = 0
   def initialize(number)
     super
     @type = :passenger
@@ -98,6 +99,7 @@ class PassengerTrain < Train
 end 
 
 class CargoTrain < Train
+  # @instances = 0
   def initialize(number)
     super
     @type = :cargo

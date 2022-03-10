@@ -2,10 +2,10 @@ class Carriage
   attr_reader :number, :type
   include Information
   
-	def initialize(number)
-		@number = number
+  def initialize(number)
+    @number = number
     self.class.list << self
-	end
+  end
 
   def self.list
     @@list ||= []

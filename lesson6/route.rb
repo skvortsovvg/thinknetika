@@ -6,10 +6,12 @@
 
 class Route
   attr_reader :title, :stations
-
+  include InstanceCounter
+  # @instances = 0
   def initialize(start, finish)
     @stations = [start, finish]
     @title = create_title
+    register_instance
     self.class.list << self
   end
 
