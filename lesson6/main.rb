@@ -34,27 +34,19 @@ route.add_station(Station.new("Батайск"))
 Station.new("Москва")
 # ==============================================
 
-# puts train1.produced
-# puts cargo_wagon.produced
+puts train1.produced
+puts cargo_wagon.produced
 
-# puts Station.all.inspect
+puts Station.all.inspect
 
-# puts Train.find('111').inspect
-# puts Train.find('806Э').inspect
+puts Train.find('111').inspect
+puts Train.find('806Э').inspect
 
-puts Train.instances
 puts CargoTrain.instances
 puts PassengerTrain.instances
 puts Station.instances
 puts Route.instances
 
-puts Train.instance_variables.inspect # => ["@a"]
-puts Train.class_variables.inspect
-
-puts CargoTrain.instance_variables.inspect # => ["@a"]
-puts CargoTrain.class_variables.inspect
-
-# Route.get_b
 # Main = Interface.new 
 # Main.start
 
