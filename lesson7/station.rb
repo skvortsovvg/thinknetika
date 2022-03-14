@@ -28,9 +28,9 @@ class Station
     cargo = 0; pass = 0;
   	
     @trains.each do |tr| 
-  		cargo += 1 if tr.type == :cargo
-  		pass += 1 if tr.type == :passanger
-  	end
+      cargo += 1 if tr.type == :cargo
+      pass += 1 if tr.type == :passanger
+    end
   	
     { cagro: cargo, passanger: pass } 
   
