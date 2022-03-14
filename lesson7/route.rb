@@ -16,8 +16,8 @@ class Route
   end
 
   def add_station(new_station, previous_station = nil)
-  	return if previous_station == @stations.first 
-  	index = @stations.index(previous_station)
+    return if previous_station == @stations.first 
+    index = @stations.index(previous_station)
     index = -2 if index == nil
     @stations.insert(index, new_station)
   end
