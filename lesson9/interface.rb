@@ -1,6 +1,6 @@
 class Interface
   def start
-    loop do 
+    loop do
       case menu
       when 0
         break
@@ -36,9 +36,9 @@ class Interface
     end
   end
 
-private
+  private
 
-  # Сами по себе эти методы не имеют смысла, поэтому их вызов из вне нужно запретить  
+  # Сами по себе эти методы не имеют смысла, поэтому их вызов из вне нужно запретить
 
   def create_station
     print "Создаем станцию. Введите название станции: "
@@ -55,7 +55,6 @@ private
 
     puts "Выберите вместимость:"
     capacity = gets.chomp.to_i
-
 
     begin
       puts "Введите номер поезда: "
@@ -77,26 +76,26 @@ private
   end
 
   def create_route
-    puts "Создаем маршрут." 
+    puts "Создаем маршрут."
     print_stations
-    puts 
-      
+    puts
+
     puts "Выберите начальную станцию: "
     s_station = Station.all[gets.chomp.to_i]
-      
+
     print "Выберите конечную станцию: "
     f_station = Station.all[gets.chomp.to_i]
-      
+
     Route.new(s_station, f_station)
-      
+
     print_result("Создан новый маршрут <#{Route.list.last.title}>")
-  end    
+  end
 
   def create_carriage
     puts "Создаем вагон."
     puts "Введите номер вагона:"
     number = gets.chomp
-    
+
     puts "Выберите тип вагона:"
     puts "1. Грузовой."
     puts "2. Пассажирский."
@@ -115,7 +114,7 @@ private
   end
 
   def edit_route
-    puts "Меняем маршрут." 
+    puts "Меняем маршрут."
     puts "Выберите маршрут: "
     print_routes
     route = Route.list[gets.chomp.to_i]
@@ -123,30 +122,30 @@ private
     puts "Выберите операцию: "
     puts "1. Добавить станцию в маршрут."
     puts "2. Удалить станцию из маршрута."
-    
+
     case gets.chomp.to_i
     when 1
       puts "Выберите станцию для добавления в маршрут: "
       print_stations
       route.add_station(Station.all[gets.chomp.to_i])
-     
+
       print_result("Маршрут <#{route.title}> изменен>")
 
     when 2
       puts "Выберите станцию для удаления: "
       print_route_stations(route)
       route.remove_station(route.stations[gets.chomp.to_i])
-      
+
       print_result("Маршрут <#{route.title}> изменен>")
-    
+
     else
       print_result("Ошибка: выбрано некорректное значение")
-      return
+      nil
     end
   end
 
   def assign_route
-    puts "Назначаем маршрут поезду." 
+    puts "Назначаем маршрут поезду."
     print_trains
     puts "Выберите поезд: "
     train = Train.list[gets.chomp.to_i]
@@ -154,7 +153,7 @@ private
     print "Выберите маршрут: "
     route = Route.list[gets.chomp.to_i]
     train.set_route(route)
-    
+
     print_result("Поезду <#{train.number}> назначен маршрут <#{route.title}>")
   end
 
@@ -167,7 +166,7 @@ private
     puts "Выберите вагон:"
     print_wagons
     train.add_carriage(Carriage.list[gets.chomp.to_i])
-    
+
     print_result("Изменен состав поезда <#{train.number}>")
   end
 
@@ -178,9 +177,9 @@ private
     train = Train.list[gets.chomp.to_i]
 
     puts "Выберите вагон:"
-    print_train_wagons(train)
+    train.wagons.each_with_index { |v, i| puts "#{i}. #{v.number}" }
     train.remove_carriage(train.wagons[gets.chomp.to_i])
-    
+
     print_result("Изменен состав поезда <#{train.number}>")
   end
 
@@ -189,16 +188,16 @@ private
     print_trains
     puts "Выберите поезд:"
     train = Train.list[gets.chomp.to_i]
-    
+
     puts "Выберите направление:"
     puts "1. Вперед."
     puts "2. Назад."
-    
-    case gets.chomp.to_i 
+
+    case gets.chomp.to_i
     when 1
-      train.move_forward()
+      train.move_forward
     when 2
-      train.move_back()
+      train.move_back
     else
       print_result("Ошибка: выбрано некорректное значение")
       return
@@ -226,51 +225,47 @@ private
   def print_route_stations(route)
     route.stations.each_with_index { |v, i| puts "#{i}. #{v.title}" }
   end
-  
-  def print_train_wagons(train)
-    train.wagons.each_with_index { |v, i| puts "#{i}. #{v.number}" }
-  end
 
   def print_station_trains
     puts "Выберите станцию: "
     print_stations
     station = Station.all[gets.chomp.to_i]
-    
+
     print_result("Список поездов на стации <#{station.title}>")
-    station.each_train do |train| 
+    station.each_train do |train|
       puts "Поезд #{train.number} (тип: #{train.type}) #{"вагонов: #{train.wagons.count}" if train.type == :passenger}"
     end
   end
-  
+
   def print_train_wagons
     puts "Выберите поезд: "
     print_trains
     train = Train.list[gets.chomp.to_i]
-    print_result("Список вагонов поезда <#{train.number}>")   
-    train.each_carriage do |carriage| 
+    print_result("Список вагонов поезда <#{train.number}>")
+    train.each_carriage do |carriage|
       puts "- вагон #{carriage.number} (тип: #{carriage.type}), загрузка: #{carriage.reserved} из #{carriage.capacity}, свободно: #{carriage.free}"
     end
   end
 
   def menu
-      puts
-      puts "###################### МЕНЮ ####################"
-      puts
-      puts "1. Создать станцию"
-      puts "2. Создать поезд"
-      puts "3. Создать маршрут" 
-      puts "4. Создать вагон"
-      puts "5. Изменить маршрут"
-      puts "6. Назначить маршрут поезду"
-      puts "7. Добавить вагон к поезду"
-      puts "8. Отцепить вагон от поезда"
-      puts "9. Переместить поезд по маршруту"
-      puts "10. Вывести список станций" 
-      puts "11. Вывести список поездов на станции"
-      puts "12. Вывести список вагонов поезда"
-      puts 
+    puts
+    puts "###################### МЕНЮ ####################"
+    puts
+    puts "1. Создать станцию"
+    puts "2. Создать поезд"
+    puts "3. Создать маршрут"
+    puts "4. Создать вагон"
+    puts "5. Изменить маршрут"
+    puts "6. Назначить маршрут поезду"
+    puts "7. Добавить вагон к поезду"
+    puts "8. Отцепить вагон от поезда"
+    puts "9. Переместить поезд по маршруту"
+    puts "10. Вывести список станций"
+    puts "11. Вывести список поездов на станции"
+    puts "12. Вывести список вагонов поезда"
+    puts
 
-      gets.chomp.to_i
+    gets.chomp.to_i
   end
 
   def print_result(txt)
@@ -280,5 +275,4 @@ private
     puts txt
     puts
   end
-
 end

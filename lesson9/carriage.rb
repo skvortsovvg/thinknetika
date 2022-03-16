@@ -1,8 +1,9 @@
 class Carriage
   attr_reader :number, :type, :capacity
+
   include Information
   include Validation
-  
+
   def initialize(number, capacity)
     @number   = number
     @capacity = capacity
@@ -14,15 +15,14 @@ class Carriage
     @@list ||= []
   end
 
-private
+  private
 
   def validate!
     raise "Несоответствие типов: номер вагона должен быть текстовым" if @number.class != String
     raise "Несоответствие типов: вместимость должна быть числовой" if @capacity.class != Integer
     raise "Не указан номер вагона!" if @number.empty?
-    raise "Количество мест указано некорректно!" if !(1..100).include?(@capacity)
+    raise "Количество мест указано некорректно!" unless (1..100).include?(@capacity)
   end
-
 end
 
 class PassengerCarriage < Carriage
@@ -37,13 +37,13 @@ class PassengerCarriage < Carriage
   end
 
   def reserved
-    @seats.select { |key, value| value }.keys.size
+    @seats.select { |_key, value| value }.keys.size
   end
 
   def free
-    @seats.select { |key, value| !value }.keys.size
+    @seats.reject { |_key, value| value }.keys.size
   end
-end 
+end
 
 class CargoCarriage < Carriage
   def initialize(number, capacity)
@@ -61,6 +61,6 @@ class CargoCarriage < Carriage
   end
 
   def free
-    @capacity-@load
+    @capacity - @load
   end
 end

@@ -63,18 +63,5 @@ cargo_wagon2.fill(5)
 cargo_wagon2.fill(17)
 
 # ==============================================
-# main = Interface.new 
-# main.start
-
-Station.all.each do |station|
-  puts "=========================="
-  puts "Станция #{station.title}:" 
-  puts "---------------------------" 
-  station.each_train do |train| 
-    puts "Поезд #{train.number} (тип: #{train.type}) #{"#{train.wagons.count} вагонов" if train.type == :passenger}"
-      train.each_carriage do |carriage| 
-        puts "- вагон #{carriage.number} (тип: #{carriage.type}), загрузка: #{carriage.reserved} из #{carriage.capacity}, свободно: #{carriage.free}"
-      end
-    puts "--------------------------"
-  end
-end
+main = Interface.new
+main.start

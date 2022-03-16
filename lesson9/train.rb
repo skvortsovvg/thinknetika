@@ -1,5 +1,6 @@
 class Train
   attr_reader :number, :wagons, :type, :speed, :route, :current_station
+
   include InstanceCounter
   include Information
   include Validation
@@ -15,10 +16,8 @@ class Train
     self.class.list << self
   end
 
-  def each_carriage
-    @wagons.each do |carriage|
-      yield(carriage)  
-    end
+  def each_carriage(&block)
+    @wagons.each(&block)
   end
 
   def self.list
@@ -35,48 +34,50 @@ class Train
   end
 
   def speed_down
-    @speed -= 5 if @speed > 0
+    @speed -= 5 if @speed.positive?
   end
 
   def add_carriage(carriage)
-    @wagons << carriage if !@wagons.member?(carriage) && carriage.type == self.type
+    @wagons << carriage if !@wagons.member?(carriage) && carriage.type == type
   end
 
   def remove_carriage(carriage)
-    @wagons.delete(carriage) if carriage.type == self.type
+    @wagons.delete(carriage) if carriage.type == type
   end
 
   def set_route(route)
     @route = route
-    if !@current_station.nil?
-      @current_station.train_departs(self)
-    end
+    @current_station.train_departs(self) unless @current_station.nil?
     @current_station = route.stations.first
     @current_station.train_arrives(self)
   end
 
   def move_forward
-    if !(@current_station == route.stations.last)
-      @current_station.train_departs(self)
-      @current_station = route.stations[route.stations.index(@current_station) + 1] if !(@current_station == route.stations.last)
-      @current_station.train_arrives(self)
+    return if @current_station == route.stations.last
+
+    @current_station.train_departs(self)
+    unless @current_station == route.stations.last
+      @current_station = route.stations[route.stations.index(@current_station) + 1]
     end
+    @current_station.train_arrives(self)
   end
 
   def move_back
-    if !(@current_station == route.stations.first)
-      @current_station.train_departs(self)
-      @current_station = route.stations[route.stations.index(@current_station) - 1] if !(@current_station == route.stations.first)
-      @current_station.train_arrives(self)
+    return if @current_station == route.stations.last
+
+    @current_station.train_departs(self)
+    unless @current_station == route.stations.first
+      @current_station = route.stations[route.stations.index(@current_station) - 1]
     end
+    @current_station.train_arrives(self)
   end
 
   def next_station
-    (@current_station == route.stations.last) ? nil : route.stations[route.stations.index(@current_station) + 1]
+    @current_station == route.stations.last ? nil : route.stations[route.stations.index(@current_station) + 1]
   end
 
   def previous_station
-    (@current_station == route.stations.first) ? nil : route.stations[route.stations.index(@current_station) - 1]
+    @current_station == route.stations.first ? nil : route.stations[route.stations.index(@current_station) - 1]
   end
 
   protected
@@ -85,7 +86,6 @@ class Train
     raise ArgumentError, "Несоответствие типов: номер позеда должен иметь строковый тип" if number.class != String
     raise ArgumentError, "Некорректный номер: ожидается формат XXX-XX или XXXXX" if number !~ NUM_FORMAT
   end
-
 end
 
 class PassengerTrain < Train
@@ -93,7 +93,7 @@ class PassengerTrain < Train
     super
     @type = :passenger
   end
-end 
+end
 
 class CargoTrain < Train
   def initialize(number)
