@@ -20,9 +20,8 @@ module Accessors
         instance_variable_get("@#{val_name}")
       end
       define_method("#{val_name}=") do |values|
-        values = *values
-        puts values.inspect
-        raise ArgumentError, "Несоответствие параметров" unless values.size != 2 || values.member?(nil)
+        values = *values.compact
+        raise ArgumentError, "Несоответствие параметров" unless values.size != 2
         raise ArgumentError, "Несоответствие типов" unless values.first.is_a?(values.last) 
         instance_variable_set("@#{val_name}", values.first)
       end

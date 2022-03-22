@@ -26,7 +26,7 @@ cargo_wagon2.produced = "Харьковский вагоностроительн
 train1.add_carriage(cargo_wagon1)
 train1.add_carriage(cargo_wagon2)
 
-train2 = PassengerTrain.new("533N1")
+train2 = PassengerTrain.new("434-24")
 train2.produced = "Киевский электровагоноремонтный завод"
 
 pass_wagon1 = PassengerCarriage.new("2.1", 15)

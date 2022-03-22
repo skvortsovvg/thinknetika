@@ -6,14 +6,15 @@ module Validation
     false
   end
 
-  def validate(name, style, option = nil)
-    case style
-    when :type
-      raise ArgumentError, "Несоответствие типов: реквизит #{name} должен иметь тип #{option}" unless instance_eval("@#{name}.is_a?(option)")
-    when :presence
-      raise ArgumentError, "Не задано значение реквизита #{name}!" if instance_eval("@#{name}.nil? || @#{name}.to_s.empty?")
-    when :format
-      raise ArgumentError, "Некорректный формат реквизита #{name}" if instance_eval("@#{name} !~ option")
-    end
+  def validate(var_name, validation_type, option = nil)
+    validations[validation_type].call(var_name, option)
+  end
+
+  def validations
+    { 
+      type: lambda { |var_name, option| raise ArgumentError, "Несоответствие типов: реквизит #{var_name} должен иметь тип #{option}" unless instance_eval("@#{var_name}.is_a?(option)") },
+      presence: proc { |var_name| raise ArgumentError, "Не задано значение реквизита #{var_name}!" if instance_eval("@#{var_name}.nil? || @#{var_name}.to_s.empty?") },
+      format: lambda { |var_name, option| raise ArgumentError, "Некорректный формат реквизита #{var_name}" if instance_eval("@#{var_name} !~ option") }
+    }
   end
 end
