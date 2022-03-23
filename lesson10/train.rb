@@ -10,7 +10,7 @@ class Train
   strong_attr_accessor :inspection_date, :repair_date
 
   NUM_FORMAT = /^\w{3}-?\w{2}$/i
-
+  
   def initialize(number)
     @number = number
     @speed = 0
@@ -88,16 +88,19 @@ class Train
     @current_station == route.stations.first ? nil : route.stations[route.stations.index(@current_station) - 1]
   end
 
-  protected
-
   def validate!
-    validate :number, :presence
-    validate :number, :type, String
-    validate :number, :format, NUM_FORMAT
+    self.class.validations.each do |v|
+      $VALIDATIONS[v[:validation_type]].call(v[:var_name], eval("@#{v[:var_name]}"), v[:option]) 
+    end
   end
 end
 
 class PassengerTrain < Train
+  
+  validate :number, :presence
+  validate :number, :type, String
+  validate :number, :format, NUM_FORMAT
+
   def initialize(number)
     super
     @type = :passenger
@@ -105,6 +108,11 @@ class PassengerTrain < Train
 end
 
 class CargoTrain < Train
+  
+  validate :number, :presence
+  validate :number, :type, String
+  validate :number, :format, NUM_FORMAT
+
   def initialize(number)
     super
     @type = :cargo

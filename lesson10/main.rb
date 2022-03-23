@@ -18,7 +18,7 @@ require 'Date'
 train1 = CargoTrain.new("806-A1")
 train1.produced = "Харьковский вагоностроительный завод"
 
-cargo_wagon1 = CargoCarriage.new('1.1', 100)
+cargo_wagon1 = CargoCarriage.new("2.2", 100)
 cargo_wagon1.produced = "Харьковский вагоностроительный завод"
 cargo_wagon2 = CargoCarriage.new('1.2', 100)
 cargo_wagon2.produced = "Харьковский вагоностроительный завод"
@@ -26,7 +26,7 @@ cargo_wagon2.produced = "Харьковский вагоностроительн
 train1.add_carriage(cargo_wagon1)
 train1.add_carriage(cargo_wagon2)
 
-train2 = PassengerTrain.new("434-24")
+train2 = PassengerTrain.new("")
 train2.produced = "Киевский электровагоноремонтный завод"
 
 pass_wagon1 = PassengerCarriage.new("2.1", 15)

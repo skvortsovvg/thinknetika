@@ -4,6 +4,9 @@ class Station
   include InstanceCounter
   include Validation
 
+  validate :title, :presence
+  validate :title, :type, String
+
   def initialize(title)
     @title = title
     @trains = []
@@ -43,7 +46,8 @@ class Station
   protected
 
   def validate!
-    validate :title, :presence
-    validate :title, :type, String
+    self.class.validations.each do |v|
+      $VALIDATIONS[v[:validation_type]].call(v[:var_name], eval("@#{v[:var_name]}"), v[:option]) 
+    end
   end
 end
