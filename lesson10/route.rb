@@ -4,6 +4,9 @@ class Route
   include InstanceCounter
   include Validation
 
+  validate "stations.first", :type, Station 
+  validate "stations.last", :type, Station 
+
   def initialize(start, finish)
     @stations = [start, finish]
     validate!
@@ -34,9 +37,4 @@ class Route
     "#{@stations.first.title} - #{@stations.last.title}"
   end
 
-  def validate!
-    @stations.each_with_index do |v, i|
-      raise "Несоответствие типов: параметр #{i + 1} (ожидается тип Station)" unless v.is_a?(Station)
-    end
-  end
 end

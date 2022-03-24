@@ -8,7 +8,7 @@ class Station
   validate :title, :type, String
 
   def initialize(title)
-    @title = title
+    @title  = title
     @trains = []
     validate!
     register_instance
@@ -33,7 +33,7 @@ class Station
 
   def trains_by_type
     cargo = 0
-    pass = 0
+    pass  = 0
 
     @trains.each do |tr|
       cargo += 1 if tr.type == :cargo
@@ -43,11 +43,4 @@ class Station
     { cagro: cargo, passanger: pass }
   end
 
-  protected
-
-  def validate!
-    self.class.validations.each do |v|
-      $VALIDATIONS[v[:validation_type]].call(v[:var_name], eval("@#{v[:var_name]}"), v[:option]) 
-    end
-  end
 end

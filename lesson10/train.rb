@@ -88,11 +88,6 @@ class Train
     @current_station == route.stations.first ? nil : route.stations[route.stations.index(@current_station) - 1]
   end
 
-  def validate!
-    self.class.validations.each do |v|
-      $VALIDATIONS[v[:validation_type]].call(v[:var_name], eval("@#{v[:var_name]}"), v[:option]) 
-    end
-  end
 end
 
 class PassengerTrain < Train

@@ -15,14 +15,6 @@ class Carriage
     @@list ||= []
   end
 
-  private
-
-  def validate!
-    self.class.validations.each do |v|
-      $VALIDATIONS[v[:validation_type]].call(v[:var_name], eval("@#{v[:var_name]}"), v[:option]) 
-    end
-    raise "Количество мест указано некорректно!" unless (1..100).include?(@capacity)
-  end
 end
 
 class PassengerCarriage < Carriage
@@ -30,6 +22,7 @@ class PassengerCarriage < Carriage
   validate :number, :presence
   validate :number, :type, String
   validate :capacity, :type, Integer
+  validate :capacity, :capacity, (1..100)
   
   def initialize(number, capacity)
     super
@@ -55,6 +48,7 @@ class CargoCarriage < Carriage
   validate :number, :presence
   validate :number, :type, String
   validate :capacity, :type, Integer
+  validate :capacity, :capacity, (1..500)
 
   def initialize(number, capacity)
     super
